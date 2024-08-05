@@ -1,2 +1,2 @@
 # Mod
-The Quilt Mod that powers Infinite Empires
+The Fabric Mod that powers Infinite Empires
