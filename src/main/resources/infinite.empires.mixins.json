@@ -3,7 +3,7 @@
 	"package": "org.infinitempires.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+      "org.infinite.empires.mixin.ExampleMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
