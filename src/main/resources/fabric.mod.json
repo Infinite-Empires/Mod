@@ -1,33 +1,29 @@
 {
 	"schemaVersion": 1,
-	"id": "infinitempires",
+	"id": "infinite-empires",
 	"version": "${version}",
-	"name": "InfinitEmpires",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "InfiniteEmpires",
+	"description": "The mod behind Infinite Empires",
 	"authors": [
 		"RuneMagic"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/Infinite-Empires/Mod"
 	},
-	"license": "CC0-1.0",
-	"icon": "assets/infinitempires/icon.png",
-	"environment": "*",
+	"license": "MIT",
+	"icon": "assets/ie/icon.png",
+	"environment": "server",
 	"entrypoints": {
 		"main": [
 			{
-				"value": "org.infinitempires.InfinitEmpires",
+				"value": "org.infinite.empires.InfiniteEmpires",
 				"adapter": "kotlin"
 			}
 		]
 	},
 	"mixins": [
-		"infinitempires.mixins.json",
-		{
-			"config": "infinitempires.client.mixins.json",
-			"environment": "client"
-		}
+      "infinite.empires.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.15.11",

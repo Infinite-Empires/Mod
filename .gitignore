@@ -38,4 +38,4 @@ src/main/resources/data/test
 
 # compiler (ignore)
 src/main/kotlin/org/infinitempires/tmp.java
-src/main/kotlin/org/infinitempires/test.java
+src/main/kotlin/org/infinitempires/test.groovy

@@ -1,7 +1,9 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
 	id 'fabric-loom' version '1.6-SNAPSHOT'
 	id 'maven-publish'
-  id "org.jetbrains.kotlin.jvm" version "2.0.0"
+  	id "org.jetbrains.kotlin.jvm" version "2.0.0"
 }
 
 version = project.mod_version
@@ -27,7 +29,7 @@ loom {
     splitEnvironmentSourceSets()
 
 	mods {
-		"infinitempires" {
+		"infinite.empires" {
 			sourceSet sourceSets.main
 		}
 	}
@@ -60,9 +62,10 @@ tasks.withType(JavaCompile).configureEach {
 	it.options.release = 21
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+tasks.withType(KotlinCompile).all {
 	kotlinOptions {
 		jvmTarget = 21
+
 	}
 }
 

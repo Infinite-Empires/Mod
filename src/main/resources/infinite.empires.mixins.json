@@ -1,11 +1,14 @@
 {
-	"required": true,
-	"package": "org.infinitempires.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-      "org.infinite.empires.mixin.ExampleMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "org.infinite.empires.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "BlockDropDetectorMixin",
+    "IEBlockDataMixin",
+    "MenuClickMixin",
+    "SetBlockDetectorMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

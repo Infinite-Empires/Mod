@@ -1,6 +1,6 @@
 @file:Suppress("MemberVisibilityCanBePrivate")
 
-package org.infinitempires.api.bullet
+package org.infinite.empires.api.bullet
 
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.world.entity.EntityType

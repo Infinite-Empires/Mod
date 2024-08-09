@@ -1,4 +1,4 @@
-package org.infinitempires.api.bullet
+package org.infinite.empires.api.bullet
 
 import com.mojang.brigadier.arguments.DoubleArgumentType
 import com.mojang.brigadier.arguments.FloatArgumentType

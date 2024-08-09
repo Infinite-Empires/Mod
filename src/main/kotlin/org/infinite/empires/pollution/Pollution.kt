@@ -1,4 +1,4 @@
-package org.infinitempires.pollution
+package org.infinite.empires.pollution
 
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
@@ -16,7 +16,7 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
-import org.infinitempires.InfinitEmpires
+import org.infinite.empires.InfiniteEmpires
 
 object Pollution {
     const val TAG = "_ie_mod__pollution_cloud"
@@ -25,7 +25,7 @@ object Pollution {
     private val size = Vec3(.5, .5, .5)
 
     fun spawn(level: ServerLevel, position: Vec3, intensity: Int): BlockDisplay {
-        InfinitEmpires.logger.info(position.toString())
+        InfiniteEmpires.logger.info(position.toString())
         val out = object : BlockDisplay(EntityType.BLOCK_DISPLAY, level) {
             override fun defineSynchedData(builder: SynchedEntityData.Builder) {
                 builder.define(DATA_INTENSITY, intensity)
@@ -42,17 +42,17 @@ object Pollution {
         ServerTickEvents.START_SERVER_TICK.register { server ->
             server.allLevels.forEach { level ->
                 level.getEntities(EntityType.BLOCK_DISPLAY) { it.tags.contains(TAG) }.forEach process@ { entity ->
-                    InfinitEmpires.logger.info(entity.toString())
+                    InfiniteEmpires.logger.info(entity.toString())
                     var position = entity.position().add(Vec3(.0, .1, .0))
                     if (position.y > 200) {
-                        InfinitEmpires.logger.info("killed")
+                        InfiniteEmpires.logger.info("killed")
                         entity.kill()
                         return@process
                     }
                     var blocked = false
                     level.getBlockCollisions(null, AABB(position.subtract(size), position.add(size))).forEach { blocked = true }
                     if (blocked) {
-                        InfinitEmpires.logger.info("blocked")
+                        InfiniteEmpires.logger.info("blocked")
                         position = Vec3(position.x, position.y.toInt().toDouble(), position.z)
                     }
                     entity.setPos(position)

@@ -1,24 +1,13 @@
-package org.infinitempires.api
+package org.infinite.empires.api
 
-import com.mojang.brigadier.CommandDispatcher
-import com.mojang.brigadier.tree.RootCommandNode
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.event.player.UseItemCallback
 import net.minecraft.commands.CommandSource
 import net.minecraft.commands.CommandSourceStack
-import net.minecraft.commands.functions.CommandFunction
-import net.minecraft.core.Vec3i
-import net.minecraft.core.registries.Registries
-import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.ServerFunctionLibrary
-import net.minecraft.server.ServerFunctionManager
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.tags.TagEntry
-import net.minecraft.tags.TagKey
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.InteractionResultHolder
@@ -27,13 +16,13 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.Vec2
 import net.minecraft.world.phys.Vec3
-import org.infinitempires.InfinitEmpires
+import org.infinite.empires.InfiniteEmpires
 
 
 fun InitRightClick(server: MinecraftServer) {
-    val on_item_interact = server.functions.getTag(InfinitEmpires.apiResourceLocation("on_item_interact"))
-    val on_block_interact = server.functions.getTag(InfinitEmpires.apiResourceLocation("on_block_interact"))
-    val on_entity_interact = server.functions.getTag(InfinitEmpires.apiResourceLocation("on_entity_interact"))
+    val on_item_interact = server.functions.getTag(InfiniteEmpires.apiResourceLocation("on_item_interact"))
+    val on_block_interact = server.functions.getTag(InfiniteEmpires.apiResourceLocation("on_block_interact"))
+    val on_entity_interact = server.functions.getTag(InfiniteEmpires.apiResourceLocation("on_entity_interact"))
 
     fun onItem(player: Player, hand: InteractionHand) {
         val msg = "item interact -> " + player.name.string
