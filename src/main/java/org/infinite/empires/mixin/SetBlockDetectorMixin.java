@@ -18,9 +18,13 @@ public abstract class SetBlockDetectorMixin {
     
     @Inject(method = "setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Z", at = @At("HEAD"))
     void setBlock(BlockPos pos, BlockState state, int flags, int recursionLeft, CallbackInfo callback) {
-        IEBlock.Companion.ifIsIE(pos, (Level) (Object) this, ieBlock -> {
+        var level = (Level) (Object) this;
+        IEBlock.Companion.ifIsIE(pos, level, ieBlock -> {
             var data = (IEBlock.DataGetter) levelData;
             var compound = data.getBlockData();
+            var blockData = compound.getCompound(pos.toShortString());
+            if (blockData.hasUUID(IEBlock.REPR_KEY))
+                ieBlock.getDisplay(level, pos, compound).kill();
             compound.remove(pos.toShortString());
             data.setBlockData(compound);
         });

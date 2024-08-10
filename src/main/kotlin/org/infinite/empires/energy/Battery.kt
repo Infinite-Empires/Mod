@@ -1,5 +1,6 @@
 package org.infinite.empires.energy
 
+import org.infinite.empires.CustomModelDatas
 import net.minecraft.ChatFormatting
 import net.minecraft.core.Registry
 import net.minecraft.core.component.DataComponents
@@ -15,6 +16,7 @@ import net.minecraft.world.item.component.ItemLore
 import net.minecraft.world.item.crafting.*
 import org.infinite.empires.InfiniteEmpires
 import org.infinite.empires.util.IEItem
+import net.minecraft.world.item.component.CustomModelData
 
 class Battery(override var power: Int = 0) : IEItem, Chargeable {
     override val maxPower: Int = MAX_POWER
@@ -41,6 +43,7 @@ class Battery(override var power: Int = 0) : IEItem, Chargeable {
         stack.set(DataComponents.LORE, ItemLore(listOf(
             literal("Power: ").append(literal("$power").withStyle(ChatFormatting.AQUA)).append(literal("/$MAX_POWER").withStyle(ChatFormatting.GRAY))),
         ))
+        stack.set(DataComponents.CUSTOM_MODEL_DATA, CustomModelDatas.BATTERY.get())
         return stack
     }
 

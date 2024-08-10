@@ -18,7 +18,7 @@ import net.minecraft.world.phys.AABB
 import java.util.function.Consumer
 
 interface IEBlock {
-    fun getRepr(entity: ItemDisplay?): BlockState
+    fun getRepr(entity: ItemDisplay): BlockState
     fun use(player: Player): InteractionResult = InteractionResult.PASS
     fun drops(): LootTable
 
@@ -30,18 +30,22 @@ interface IEBlock {
         val compound = data.get(pos)
         save(compound)
         if (compound.hasUUID(REPR_KEY))
-            getRepr(level.getEntitiesOfClass(ItemDisplay::class.java, AABB.encapsulatingFullBlocks(pos, pos)) { it.uuid.equals(compound.getUUID(REPR_KEY)) }[0])
+            getRepr(getDisplay(level, pos, compound))
         data.set(pos, compound)
     }
     
-    fun create(pos: BlockPos, level: ServerLevel) {
-        val entity = EntityType.ITEM_DISPLAY.spawn(level, pos, MobSpawnType.MOB_SUMMONED)!!
+    fun create(pos: BlockPos, level: Level) {
+        val entity = EntityType.ITEM_DISPLAY.spawn(level as ServerLevel, pos, MobSpawnType.MOB_SUMMONED)!!
         val compound = CompoundTag()
         compound.putString(TYPE_KEY, this.javaClass.name)
         level.setBlock(pos, getRepr(entity), Block.UPDATE_ALL)
         if (entity.isAlive)
             compound.putUUID(REPR_KEY, entity.uuid)
         (level.levelData as DataGetter).set(pos, compound)
+    }
+    
+    fun getDisplay(level: Level, pos: BlockPos, compound: CompoundTag): ItemDisplay {
+        return level.getEntitiesOfClass(ItemDisplay::class.java, AABB.encapsulatingFullBlocks(pos, pos)) { it.uuid.equals(compound.getUUID(REPR_KEY)) }[0]
     }
     
     companion object {
@@ -60,13 +64,56 @@ interface IEBlock {
         fun load(pos: BlockPos, level: Level): IEBlock {
             val data = (level.levelData as DataGetter).get(pos)
             val block = Class.forName(data.getString(TYPE_KEY)).getConstructor().newInstance() as IEBlock
+            if (block is CachedIEBlock) {
+                block.position = pos
+                block.level = level
+            }
             block.load(data)
             return block
+        }
+    
+        inline fun <reified T : IEBlock> create(entity: ItemDisplay): IEBlock {
+            val level = entity.level()
+            val pos = BlockPos(entity.position().x.toInt(), entity.position().z.toInt(), entity.position().y.toInt())
+            val t = T::class.java.getConstructor().newInstance()
+            t.create(pos, level)
+            return t
         }
     }
     
     interface DataGetter {
         var blockData: CompoundTag
+    }
+}
+
+interface Reloadable {
+    fun reload(): Boolean
+    fun unload(): Boolean
+}
+
+abstract class CachedIEBlock : IEBlock, Reloadable {
+    var position: BlockPos? = null
+    var level: Level? = null
+    val hasCache get() = position != null && level != null
+    
+    override fun reload(): Boolean {
+        if (!hasCache) return false
+        val data = level!!.levelData as IEBlock.DataGetter
+        if (!data.has(position!!)) return false
+        load(data.get(position!!))
+        return true
+    }
+    
+    override fun unload(): Boolean {
+        if (!hasCache) return false
+        unload(position!!, level!!)
+        return true
+    }
+    
+    override fun create(pos: BlockPos, level: Level) {
+        this.position = pos
+        this.level = level
+        super.create(pos, level)
     }
 }
 
